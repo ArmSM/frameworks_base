@@ -298,6 +298,8 @@ public class EdgeBackGestureHandler implements PluginListener<NavigationEdgeBack
 
     private final GestureNavigationSettingsObserver mGestureNavigationSettingsObserver;
 
+    private boolean mBlockedGesturalNavigation;
+
     private final NavigationEdgeBackPlugin.BackCallback mBackCallback =
             new NavigationEdgeBackPlugin.BackCallback() {
                 @Override
@@ -625,6 +627,10 @@ public class EdgeBackGestureHandler implements PluginListener<NavigationEdgeBack
         mIsNavBarShownTransiently = isTransient;
     }
 
+    public void setBlockedGesturalNavigation(boolean blocked) {
+        mBlockedGesturalNavigation = blocked;
+    }
+
     private void disposeInputChannel() {
         if (mInputEventReceiver != null) {
             mInputEventReceiver.dispose();
@@ -697,9 +703,21 @@ public class EdgeBackGestureHandler implements PluginListener<NavigationEdgeBack
                 }
 
                 // Register input event receiver
+<<<<<<< HEAD
                 mInputMonitor = new InputMonitorCompat("edge-swipe", mDisplayId);
                 mInputEventReceiver = mInputMonitor.getInputReceiver(Looper.getMainLooper(),
                         Choreographer.getInstance(), this::onInputEvent);
+=======
+                mInputMonitor = mContext.getSystemService(InputManager.class).monitorGestureInput(
+                        "edge-swipe", mDisplayId);
+                mInputEventReceiver = new InputChannelCompat.InputEventReceiver(
+                        mInputMonitor.getInputChannel(), Looper.getMainLooper(),
+                        Choreographer.getInstance(), event -> {
+                            if (!mBlockedGesturalNavigation) {
+                                onInputEvent(event);
+                            }
+                        });
+>>>>>>> 0d9cbdc8505e (base: add API for disabling gestural navigation)
 
                 // Add a nav bar panel window
                 mIsNewBackAffordanceEnabled = mFeatureFlags.isEnabled(Flags.NEW_BACK_AFFORDANCE);

@@ -177,7 +177,12 @@ public class CommandQueue extends IStatusBar.Stub implements
     private static final int MSG_CONFIRM_IMMERSIVE_PROMPT = 77 << MSG_SHIFT;
     private static final int MSG_IMMERSIVE_CHANGED = 78 << MSG_SHIFT;
     private static final int MSG_SET_QS_TILES = 79 << MSG_SHIFT;
+<<<<<<< HEAD
     private static final int MSG_ENTER_DESKTOP = 80 << MSG_SHIFT;
+=======
+    private static final int MSG_SET_BLOCKED_GESTURAL_NAVIGATION = 80 << MSG_SHIFT;
+
+>>>>>>> 0d9cbdc8505e (base: add API for disabling gestural navigation)
     public static final int FLAG_EXCLUDE_NONE = 0;
     public static final int FLAG_EXCLUDE_SEARCH_PANEL = 1 << 0;
     public static final int FLAG_EXCLUDE_RECENTS_PANEL = 1 << 1;
@@ -522,10 +527,14 @@ public class CommandQueue extends IStatusBar.Stub implements
          */
         default void immersiveModeChanged(int rootDisplayAreaId, boolean isImmersiveMode) {}
 
+<<<<<<< HEAD
         /**
          * @see IStatusBar#enterDesktop(int)
          */
         default void enterDesktop(int displayId) {}
+=======
+        default void setBlockedGesturalNavigation(boolean blocked) {}
+>>>>>>> 0d9cbdc8505e (base: add API for disabling gestural navigation)
     }
 
     @VisibleForTesting
@@ -1435,6 +1444,16 @@ public class CommandQueue extends IStatusBar.Stub implements
         mHandler.obtainMessage(MSG_ENTER_DESKTOP, args).sendToTarget();
     }
 
+    @Override
+    public void setBlockedGesturalNavigation(boolean blocked) {
+        synchronized (mLock) {
+            if (mHandler.hasMessages(MSG_SET_BLOCKED_GESTURAL_NAVIGATION)) {
+                mHandler.removeMessages(MSG_SET_BLOCKED_GESTURAL_NAVIGATION);
+            }
+            mHandler.obtainMessage(MSG_SET_BLOCKED_GESTURAL_NAVIGATION, blocked).sendToTarget();
+        }
+    }
+
     private final class H extends Handler {
         private H(Looper l) {
             super(l);
@@ -1933,6 +1952,7 @@ public class CommandQueue extends IStatusBar.Stub implements
                         mCallbacks.get(i).immersiveModeChanged(rootDisplayAreaId, isImmersiveMode);
                     }
                     break;
+<<<<<<< HEAD
                 case MSG_ENTER_DESKTOP: {
                     args = (SomeArgs) msg.obj;
                     int displayId = args.argi1;
@@ -1941,6 +1961,11 @@ public class CommandQueue extends IStatusBar.Stub implements
                     }
                     break;
                 }
+=======
+                case MSG_SET_BLOCKED_GESTURAL_NAVIGATION:
+                    mCallbacks.forEach(cb -> cb.setBlockedGesturalNavigation((Boolean) msg.obj));
+                    break;
+>>>>>>> 0d9cbdc8505e (base: add API for disabling gestural navigation)
             }
         }
     }
