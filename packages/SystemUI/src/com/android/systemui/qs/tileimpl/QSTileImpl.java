@@ -413,6 +413,9 @@ public abstract class QSTileImpl<TState extends State> implements QSTile, Lifecy
     protected void handleLongClick(@Nullable View view) {
         ActivityTransitionAnimator.Controller animationController =
                 view != null ? ActivityTransitionAnimator.Controller.fromView(view,
+        if (getLongClickIntent() == null) return;
+        ActivityLaunchAnimator.Controller animationController =
+                view != null ? ActivityLaunchAnimator.Controller.fromView(view,
                         InteractionJankMonitor.CUJ_SHADE_APP_LAUNCH_FROM_QS_TILE) : null;
         mActivityStarter.postStartActivityDismissingKeyguard(getLongClickIntent(), 0,
                 animationController);
