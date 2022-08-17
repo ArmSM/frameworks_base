@@ -402,9 +402,14 @@ public class Face10 implements IHwBinder.DeathRecipient, ServiceProvider {
             @NonNull FaceSensorPropertiesInternal sensorProps,
             @NonNull LockoutResetDispatcher lockoutResetDispatcher) {
         final Handler handler = new Handler(Looper.getMainLooper());
+<<<<<<< HEAD
         return new Face10(context, biometricStateCallback, authenticationStateListeners,
                 sensorProps, lockoutResetDispatcher, handler, new BiometricScheduler<>(
                         BiometricScheduler.SENSOR_TYPE_FACE,
+=======
+        return new Face10(context, biometricStateCallback, sensorProps, lockoutResetDispatcher,
+                handler, new BiometricScheduler(context, TAG, BiometricScheduler.SENSOR_TYPE_FACE,
+>>>>>>> b726c1e76348 (BiometricScheduler: Cancel operation if not idle)
                         null /* gestureAvailabilityTracker */),
                 BiometricContext.getInstance(context));
     }
