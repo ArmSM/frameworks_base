@@ -20,6 +20,9 @@ import android.animation.Animator.AnimatorListener;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -78,9 +81,12 @@ public class QSCustomizer extends LinearLayout {
         mToolbar.setNavigationIcon(
                 getResources().getDrawable(value.resourceId, mContext.getTheme()));
 
-        mToolbar.getMenu().add(Menu.NONE, MENU_RESET, 0, com.android.internal.R.string.reset)
-                .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-        mToolbar.setTitle(R.string.qs_edit);
+        SpannableString resetText = new SpannableString(
+                mContext.getString(com.android.internal.R.string.reset));
+        resetText.setSpan(new ForegroundColorSpan(isNightMode() ?
+                Color.WHITE : Color.BLACK), 0, resetText.length(), 0);
+        toolbar.getMenu().add(Menu.NONE, MENU_RESET, 0, resetText);
+        toolbar.setTitle(R.string.qs_edit);
         mRecyclerView = findViewById(android.R.id.list);
         mTransparentView = findViewById(R.id.customizer_transparent_view);
         DefaultItemAnimator animator = new DefaultItemAnimator();
@@ -110,6 +116,10 @@ public class QSCustomizer extends LinearLayout {
                         .setVisibility(mIsShowingNavBackdrop ? View.VISIBLE : View.GONE);
             }
         }
+
+    private boolean isNightMode() {
+        return (mContext.getResources().getConfiguration().uiMode
+                & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
     }
 
     void updateResources() {
