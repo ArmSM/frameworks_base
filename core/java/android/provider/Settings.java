@@ -6500,6 +6500,11 @@ public final class Settings {
                 "notification_guts_kill_app_button";
 
         /**
+         * @hide
+         */
+        public static final String QS_TILE_UI_STYLE = "qs_tile_ui_style";
+
+        /**
          * GameSpace: List of added games by user
          * @hide
          */
