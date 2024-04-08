@@ -6543,7 +6543,6 @@ public abstract class Context {
     public static final String SECURITY_STATE_SERVICE = "security_state";
 
     /**
-<<<<<<< HEAD
      * Use with {@link #getSystemService(String)} to retrieve an
      * {@link android.app.ecm.EnhancedConfirmationManager}.
      *
@@ -6594,16 +6593,6 @@ public abstract class Context {
     @SuppressLint("ServiceName")
     public static final String WEBVIEW_UPDATE_SERVICE = "webviewupdate";
 
-     * Use with {@link #getSystemService} to retrieve a
-     * {@link com.oplus.os.LinearmotorVibrator} for accessing linear motor vibrator state.
-     *
-     * @hide
-     * @see #getSystemService
-     * @see com.oplus.os.LinearmotorVibrator
-     */
-    public static final String LINEARMOTOR_VIBRATOR_SERVICE = "linearmotor";
-
-    /**
      * Determine whether the given permission is allowed for a particular
      * process and user ID running in the system.
      *
